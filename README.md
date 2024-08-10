@@ -1,1 +1,1 @@
-`go get https://github.com/gucchi0421/gopkg`
+`go get github.com/gucchi0421/gopkg`
