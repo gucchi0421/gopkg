@@ -10,16 +10,19 @@ import (
 
 var store = sessions.NewCookieStore([]byte(app.GetEnv("SESSION_SECRET_KEY", "bqfUqp4Eh6CH")))
 
-func New(c echo.Context, key, value string) error {
-	sess, err := store.Get(c.Request(), key)
-	if err != nil {
-		return err
-	}
-	sess.Values[key] = value
+// 新しいセッションに値を設定する
+// err := session.New(c, "セッション名", "キー", "値")
+func New(c echo.Context, sessName, key, value string) error {
+    sess, err := store.Get(c.Request(), sessName)
+    if err != nil {
+        return err
+    }
+    sess.Values[key] = value
 
-	return sess.Save(c.Request(), c.Response())
+    return sess.Save(c.Request(), c.Response())
 }
 
+// セッションから値を取得する
 func Get(c echo.Context, key string) (string, error) {
 	sess, err := store.Get(c.Request(), key)
 	if err != nil {
@@ -34,6 +37,7 @@ func Get(c echo.Context, key string) (string, error) {
 	return val, nil
 }
 
+// セッションをクリアする
 func Clear(c echo.Context, sessName string) error {
 	sess, err := store.Get(c.Request(), sessName)
 	if err != nil {
