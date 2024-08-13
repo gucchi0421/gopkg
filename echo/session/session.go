@@ -23,18 +23,18 @@ func New(c echo.Context, sessName, key, value string) error {
 }
 
 // セッションから値を取得する
-func Get(c echo.Context, key string) (string, error) {
-	sess, err := store.Get(c.Request(), key)
-	if err != nil {
-		return "", err
-	}
+func Get(c echo.Context, sessName, key string) (string, error) {
+    sess, err := store.Get(c.Request(), sessName)
+    if err != nil {
+        return "", err
+    }
 
-	val, ok := sess.Values[key].(string)
-	if !ok || val == "" {
-		return "", errors.New("value not found or invalid")
-	}
+    val, ok := sess.Values[key].(string)
+    if !ok || val == "" {
+        return "", errors.New("value not found or invalid")
+    }
 
-	return val, nil
+    return val, nil
 }
 
 // セッションをクリアする
